@@ -1,19 +1,22 @@
 const cardTemplate = document.querySelector('#card-template').content;
+const placeList = document.querySelector('.places__list');
 
-function addCard(card, cardDelete) {
+function createCard(card, cardDelete) {
   const cloneTemplate = cardTemplate.querySelector('.card').cloneNode(true);
-  const placeList = document.querySelector('.places__list');
   const cardDeleteButton = cloneTemplate.querySelector('.card__delete-button');
 
   cardDeleteButton.addEventListener('click', function(){
     cardDelete(cloneTemplate)
   })
-  cloneTemplate.querySelector('.card__image').src = card.link
-  cloneTemplate.querySelector('.card__image').alt = card.name
+  const cardImage = cloneTemplate.querySelector('.card__image')
+  cardImage.src = card.link
+  cardImage.alt = card.name
   
   cloneTemplate.querySelector('.card__title').textContent = card.name
 
-  placeList.append(cloneTemplate)
+  placeList.prepend(cloneTemplate)
+
+  return cloneTemplate 
 }
 
 function cardDelete(card) {
@@ -21,73 +24,5 @@ function cardDelete(card) {
 }
 
 for(let i = 0; i < initialCards.length; i++) {
-  addCard(initialCards[i], cardDelete)
+ createCard(initialCards[i], cardDelete)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
