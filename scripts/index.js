@@ -14,9 +14,7 @@ function createCard(card, cardDelete) {
   
   cloneTemplate.querySelector('.card__title').textContent = card.name
 
-  placeList.prepend(cloneTemplate)
-
-  return cloneTemplate 
+  return cloneTemplate
 }
 
 function cardDelete(card) {
@@ -24,5 +22,6 @@ function cardDelete(card) {
 }
 
 for(let i = 0; i < initialCards.length; i++) {
- createCard(initialCards[i], cardDelete)
+ const newCard = createCard(initialCards[i], cardDelete)
+ placeList.prepend(newCard)
 }
