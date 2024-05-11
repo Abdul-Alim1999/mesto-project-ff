@@ -1,7 +1,7 @@
 import './pages/index.css'
 import {initialCards} from '../src/scripts/cards.js'
 import { createCard, cardDelete, addLike } from './components/card.js'
-import { openPopup, closePopup } from './components/modal.js'
+import { openPopup, closePopup, closePopupOverlay } from './components/modal.js'
 
 const placeList = document.querySelector('.places__list')
 const popupTypeEdit = document.querySelector('.popup_type_edit')
@@ -13,9 +13,11 @@ const newCardUrl = popupNewCard.querySelector('.popup__input_type_url')
 const addCardButton = document.querySelector('.profile__add-button')
 const closePopupButtons = document.querySelectorAll('.popup__close')
 const popups = document.querySelectorAll('.popup')
-const formElement = document.querySelector('.popup__form')
-const nameInput = formElement.querySelector('.popup__input_type_name')
-const jobInput = formElement.querySelector('.popup__input_type_description')
+const editProfileForm = document.querySelector('form[name="edit-profile"]')
+const nameInput = editProfileForm.querySelector('.popup__input_type_name')
+const jobInput = editProfileForm.querySelector('.popup__input_type_description')
+const profileTitle = document.querySelector('.profile__title')
+const profileDescr = document.querySelector('.profile__description')
 
 //добавление начальных карточек
 for(let i = 0; i < initialCards.length; i++) {
@@ -24,21 +26,18 @@ for(let i = 0; i < initialCards.length; i++) {
 }
 
 //функция обработки формы редактирования
-function handleFormSubmit(e) {
+function editFormSubmit(e) {
   e.preventDefault() 
 
   const nameInputValue = nameInput.value 
   const jobInputValue = jobInput.value
-
-  const profileTitle = document.querySelector('.profile__title')
-  const profileDescr = document.querySelector('.profile__description')
 
   profileTitle.textContent = nameInputValue
   profileDescr.textContent = jobInputValue
 
   closePopup(popupTypeEdit)
 }
-formElement.addEventListener('submit', handleFormSubmit)
+editProfileForm.addEventListener('submit', editFormSubmit)
 
 ////функция добавления новой карточки
 function addNewCard(e) {
@@ -75,7 +74,12 @@ function openImagePopup(cardName, cardUlr) {
 }
 
 // Открытие попапа редактирования профиля
-popupEditButton.addEventListener('click', () => openPopup(popupTypeEdit))
+popupEditButton.addEventListener('click', () => {
+  nameInput.value = profileTitle.textContent
+  jobInput.value = profileDescr.textContent
+  openPopup(popupTypeEdit)
+})
+
 
 // Открытие попапа для новой карточки
 addCardButton.addEventListener('click', () => openPopup(popupNewCard))
@@ -83,33 +87,9 @@ addCardButton.addEventListener('click', () => openPopup(popupNewCard))
 //кнопка закрытия popup
 closePopupButtons.forEach((button) => {
   button.addEventListener('click', () => {
-    const buttons = button.closest('.popup')
-    closePopup(buttons)
+    const buttonPopup = button.closest('.popup')
+    closePopup(buttonPopup)
   })
 })
 
-// Закрытие popup по нажатию на Esc
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    popups.forEach((popup) => closePopup(popup))
-  }
-})
-
-// Закрытие popup по клику за пределами popup
-popups.forEach((popup) => {
-  popup.addEventListener('click', (e) => {
-    if (e.target.classList[0] === 'popup') {
-      closePopup(popup)
-    }
-  })
-})
-
-
-
-
-
-
-
-
-
-
+closePopupOverlay(popups)
