@@ -1,19 +1,19 @@
 //функция открытия popup
 export function openPopup(popup) {
-  popup.addEventListener('keydown', closePopupByEsc)
+  document.addEventListener('keydown', closePopupByEsc)
   popup.classList.add('popup_is-opened', 'popup_is-animated')
 }
 
 ////функция закрытия popup
 export function closePopup(popup) {
-  popup.removeEventListener('keydown', closePopupByEsc)
+  document.removeEventListener('keydown', closePopupByEsc)
   popup.classList.remove('popup_is-opened')
 }
 
 //функция закрытия по Escape
 function closePopupByEsc(e) {
   if (e.key === 'Escape') {
-    closePopup(popup)
+    closePopup(document.querySelector('.popup_is-opened'))
   }
 }
 
