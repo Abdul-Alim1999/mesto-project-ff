@@ -10,8 +10,23 @@
   margin-bottom: 10px;
 }
 
+.popup__input.popup__input_type_error {
+  border-bottom-color: #FF0000;
+}
+
 .popup__input:last-of-type {
   margin-bottom: 0;
+}
+
+.popup__input-error {
+  color: rgb(255, 0, 0);
+  font-size: 12px;
+  font-weight: 400;
+  display: none;
+}
+
+.popup__input-error_visible {
+  display: block;
 }
 
 @media screen and (max-width: 568px) {
