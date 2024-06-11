@@ -78,3 +78,21 @@ export const unlikeCard = (cardId) => {
   })
     .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`));
 };
+
+// Функция для обновления аватара пользователя
+export function updateUserAvatar(avatarUrl) {
+  return fetch(`${config.url}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: {
+      ...config.headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ avatar: avatarUrl })
+  })
+    .then(response => {
+      if (!response.ok) {
+        return Promise.reject(`Ошибка: ${response.status}`);
+      }
+      return response.json();
+    });
+}

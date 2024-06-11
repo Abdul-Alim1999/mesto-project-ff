@@ -7,6 +7,11 @@
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+  transition: 0.2s linear;
+}
+
+.profile__image:hover {
+  filter: brightness(40%);
 }
 
 @media screen and (max-width: 740px) {
@@ -20,6 +25,3 @@
     margin-right: 0;
   }
 }
-
-
-

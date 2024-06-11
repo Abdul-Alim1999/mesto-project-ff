@@ -2,7 +2,7 @@ import './pages/index.css';
 import { createCard, cardDelete, addLike } from './components/card.js';
 import { openPopup, closePopup, closePopupOverlay } from './components/modal.js';
 import { enableValidation, clearValidation } from './components/validation.js';
-import { getUser, getCards, updateUser, createCardOnServer } from './components/api.js';
+import { getUser, getCards, updateUser, createCardOnServer, updateUserAvatar } from './components/api.js';
 
 const placeList = document.querySelector('.places__list');
 const popupTypeEdit = document.querySelector('.popup_type_edit');
@@ -11,15 +11,18 @@ const popupTypeNewCard = document.querySelector('.popup_type_new-card');
 const profileAddBtn = document.querySelector('.profile__add-button');
 const closePopupButtons = document.querySelectorAll('.popup__close');
 const popups = document.querySelectorAll('.popup');
+const profileAvatar = document.querySelector('.profile__image')
 const profileTitle = document.querySelector('.profile__title');
 const profileDescr = document.querySelector('.profile__description');
-const profileAvatar = document.querySelector('.profile__image');
 const editForm = document.querySelector('form[name="edit-profile"]');
 const editNameInput = editForm.querySelector('.popup__input_type_name');
 const editJobInput = editForm.querySelector('.popup__input_type_description');
 const newCardForm = document.querySelector('form[name="new-place"]');
 const newCardNameInput = newCardForm.querySelector('.popup__input_type_card-name');
 const newCardUrlInput = newCardForm.querySelector('.popup__input_type_url');
+const popupTypeAvatar = document.querySelector('.popup_type_avatar')
+const avatarForm = popupTypeAvatar.querySelector('.popup__form')
+const avatarInput = avatarForm.querySelector('.popup__input_type_url')
 
 // Обновляем данные пользователя и загружаем карточки при загрузке страницы
 Promise.all([getUser(), getCards()])
@@ -27,7 +30,7 @@ Promise.all([getUser(), getCards()])
     handleUserInfo(user);
     cards.forEach((cardData) => {
       const card = createCard(cardData, cardDelete, openPopupImage, addLike);
-      placeList.prepend(card);
+      placeList.append(card);
     });
   })
   .catch(err => {
@@ -139,3 +142,19 @@ const validationConfig = {
 };
 
 enableValidation(validationConfig);
+
+// Обновляем аватар пользователя, используя полученный URL
+avatarForm.addEventListener('submit', () => {
+  const avatarUrlValue = avatarInput.value;
+
+  updateUserAvatar(avatarUrlValue)
+    .then(updatedUser => {
+      profileAvatar.src = updatedUser.avatar;
+      closePopup(avatarPopup);
+    })
+    .catch(error => {
+      console.error('Ошибка при обновлении аватара:', error);
+    });
+
+    closePopup(popupTypeAvatar)
+})

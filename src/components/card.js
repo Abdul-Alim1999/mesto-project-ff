@@ -1,18 +1,13 @@
 import { likeCard, unlikeCard } from './api.js';
 
 // Функция создания карточки
-export function createCard(card, userId, openDeletePopup, openPopupImage) {
+export function createCard(card, userId, openPopupImage) {
   const cardTemplate = document.querySelector('#card-template').content;
   const cardTemplateClone = cardTemplate.querySelector('.card').cloneNode(true);
 
   const cardDeleteBtn = cardTemplateClone.querySelector('.card__delete-button');
-  if (card.owner._id === userId) {
-    cardDeleteBtn.addEventListener('click', () => {
-      openDeletePopup(card._id, cardTemplateClone);
-    });
-  } else {
-    cardDeleteBtn.remove();
-  }
+  cardDeleteBtn.addEventListener('click', () => cardDelete(cardTemplateClone))
+
 
   const cardImage = cardTemplateClone.querySelector('.card__image');
   cardImage.addEventListener('click', () => openPopupImage(card.link, card.name));
