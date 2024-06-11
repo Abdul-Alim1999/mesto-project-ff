@@ -11,7 +11,7 @@ const popupTypeNewCard = document.querySelector('.popup_type_new-card');
 const profileAddBtn = document.querySelector('.profile__add-button');
 const closePopupButtons = document.querySelectorAll('.popup__close');
 const popups = document.querySelectorAll('.popup');
-const profileAvatar = document.querySelector('.profile__image')
+const profileAvatar = document.querySelector('.profile__image');
 const profileTitle = document.querySelector('.profile__title');
 const profileDescr = document.querySelector('.profile__description');
 const editForm = document.querySelector('form[name="edit-profile"]');
@@ -20,6 +20,7 @@ const editJobInput = editForm.querySelector('.popup__input_type_description');
 const newCardForm = document.querySelector('form[name="new-place"]');
 const newCardNameInput = newCardForm.querySelector('.popup__input_type_card-name');
 const newCardUrlInput = newCardForm.querySelector('.popup__input_type_url');
+const changeAvatar = document.querySelector('.profile__overlay')
 const popupTypeAvatar = document.querySelector('.popup_type_avatar')
 const avatarForm = popupTypeAvatar.querySelector('.popup__form')
 const avatarInput = avatarForm.querySelector('.popup__input_type_url')
@@ -158,3 +159,6 @@ avatarForm.addEventListener('submit', () => {
 
     closePopup(popupTypeAvatar)
 })
+
+// Слушатель на кнопку редактирования аватара
+changeAvatar.addEventListener('click', () => openPopup(popupTypeAvatar))
