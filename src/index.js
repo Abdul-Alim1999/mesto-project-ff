@@ -63,6 +63,11 @@ const handleUserInfo = (user) => {
 function editFormSubmit(e) {
   e.preventDefault();
 
+  const submitButton = editForm.querySelector('.popup__button');
+  const initialButtonText = submitButton.textContent;
+  submitButton.textContent = 'Сохранение...';
+  submitButton.disabled = true;
+
   const newName = editNameInput.value;
   const newAbout = editJobInput.value;
 
@@ -73,13 +78,37 @@ function editFormSubmit(e) {
     })
     .catch(err => {
       console.log(err);
+    })
+    .finally(() => {
+      submitButton.textContent = initialButtonText;
+      submitButton.disabled = false;
     });
 }
+// function editFormSubmit(e) {
+//   e.preventDefault();
+
+//   const newName = editNameInput.value;
+//   const newAbout = editJobInput.value;
+
+//   updateUser(newName, newAbout)
+//     .then((updatedUser) => {
+//       handleUserInfo(updatedUser);
+//       closePopup(popupTypeEdit);
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// }
 editForm.addEventListener('submit', editFormSubmit);
 
 // Функция добавления новой карточки
 function newCardFormSubmit(e) {
   e.preventDefault();
+
+  const submitButton = newCardForm.querySelector('.popup__button');
+  const initialButtonText = submitButton.textContent;
+  submitButton.textContent = 'Сохранение...';
+  submitButton.disabled = true;
 
   const newCardName = newCardNameInput.value;
   const newCardLink = newCardUrlInput.value;
@@ -93,8 +122,29 @@ function newCardFormSubmit(e) {
     })
     .catch(err => {
       console.log(err);
+    })
+    .finally(() => {
+      submitButton.textContent = initialButtonText;
+      submitButton.disabled = false;
     });
 }
+// function newCardFormSubmit(e) {
+//   e.preventDefault();
+
+//   const newCardName = newCardNameInput.value;
+//   const newCardLink = newCardUrlInput.value;
+
+//   createCardOnServer(newCardName, newCardLink)
+//     .then((cardData) => {
+//       const card = createCard(cardData, cardDelete, openPopupImage, addLike);
+//       placeList.prepend(card);
+//       newCardForm.reset();
+//       closePopup(popupTypeNewCard);
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// }
 newCardForm.addEventListener('submit', newCardFormSubmit);
 
 // Слушатель на кнопку редактирования профиля
@@ -145,20 +195,31 @@ const validationConfig = {
 enableValidation(validationConfig);
 
 // Обновляем аватар пользователя, используя полученный URL
-avatarForm.addEventListener('submit', () => {
+avatarForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const submitButton = avatarForm.querySelector('.popup__button');
+  const initialButtonText = submitButton.textContent;
+  submitButton.textContent = 'Сохранение...';
+  submitButton.disabled = true;
+
   const avatarUrlValue = avatarInput.value;
 
   updateUserAvatar(avatarUrlValue)
     .then(updatedUser => {
       profileAvatar.src = updatedUser.avatar;
-      closePopup(avatarPopup);
+      closePopup(popupTypeAvatar);
     })
     .catch(error => {
       console.error('Ошибка при обновлении аватара:', error);
+    })
+    .finally(() => {
+      submitButton.textContent = initialButtonText;
+      submitButton.disabled = false;
     });
 
     closePopup(popupTypeAvatar)
-})
+});
 
 // Слушатель на кнопку редактирования аватара
 changeAvatar.addEventListener('click', () => openPopup(popupTypeAvatar))
