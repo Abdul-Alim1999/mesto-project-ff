@@ -84,21 +84,7 @@ function editFormSubmit(e) {
       submitButton.disabled = false;
     });
 }
-// function editFormSubmit(e) {
-//   e.preventDefault();
 
-//   const newName = editNameInput.value;
-//   const newAbout = editJobInput.value;
-
-//   updateUser(newName, newAbout)
-//     .then((updatedUser) => {
-//       handleUserInfo(updatedUser);
-//       closePopup(popupTypeEdit);
-//     })
-//     .catch(err => {
-//       console.log(err);
-//     });
-// }
 editForm.addEventListener('submit', editFormSubmit);
 
 // Функция добавления новой карточки
@@ -128,23 +114,7 @@ function newCardFormSubmit(e) {
       submitButton.disabled = false;
     });
 }
-// function newCardFormSubmit(e) {
-//   e.preventDefault();
 
-//   const newCardName = newCardNameInput.value;
-//   const newCardLink = newCardUrlInput.value;
-
-//   createCardOnServer(newCardName, newCardLink)
-//     .then((cardData) => {
-//       const card = createCard(cardData, cardDelete, openPopupImage, addLike);
-//       placeList.prepend(card);
-//       newCardForm.reset();
-//       closePopup(popupTypeNewCard);
-//     })
-//     .catch(err => {
-//       console.log(err);
-//     });
-// }
 newCardForm.addEventListener('submit', newCardFormSubmit);
 
 // Слушатель на кнопку редактирования профиля
