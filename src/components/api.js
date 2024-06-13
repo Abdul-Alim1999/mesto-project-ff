@@ -61,6 +61,7 @@ export const createCardOnServer = (name, link) => {
     .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`));
 };
 
+
 // Установка лайка карточке на сервере
 export const likeCard = (cardId) => {
   return fetch(`${config.url}/cards/likes/${cardId}`, {
@@ -96,3 +97,12 @@ export function updateUserAvatar(avatarUrl) {
       return response.json();
     });
 }
+
+// Функция для удаления карточки
+export const deleteCardOnServer = (cardId) => {
+  return fetch(`${config.url}/cards/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`));
+};

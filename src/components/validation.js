@@ -70,10 +70,13 @@ export function clearValidation(form, config) {
 
 function getCustomErrorMessage(input) {
   const validity = input.validity;
+  const nameRegex = /^[A-Za-zА-Яа-яЁё\s\-]+$/;
   if (validity.valueMissing) {
     return 'Вы пропустили поле.';
   } else if (validity.patternMismatch) {
     return input.dataset.error;
+  } else if (!nameRegex.test(input.value)) {
+    return 'Поле "Название" может содержать только латинские и кириллические буквы, знаки дефиса и пробелы.';
   } else if (validity.tooShort) {
     return `Минимальная длина ${input.minLength} символов. Сейчас ${input.value.length}.`;
   } else if (validity.tooLong) {

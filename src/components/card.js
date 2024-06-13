@@ -1,13 +1,9 @@
-import { likeCard, unlikeCard } from './api.js';
+import { likeCard, unlikeCard, deleteCardOnServer } from './api.js';
 
 // Функция создания карточки
 export function createCard(card, userId, openPopupImage) {
   const cardTemplate = document.querySelector('#card-template').content;
   const cardTemplateClone = cardTemplate.querySelector('.card').cloneNode(true);
-
-  const cardDeleteBtn = cardTemplateClone.querySelector('.card__delete-button');
-  cardDeleteBtn.addEventListener('click', () => cardDelete(cardTemplateClone))
-
 
   const cardImage = cardTemplateClone.querySelector('.card__image');
   cardImage.addEventListener('click', () => openPopupImage(card.link, card.name));
@@ -46,12 +42,28 @@ export function createCard(card, userId, openPopupImage) {
     }
   });
 
+  // Проверка на владельца карточки
+  if (card.owner._id === userId) {
+    const cardDeleteBtn = cardTemplateClone.querySelector('.card__delete-button');
+    cardDeleteBtn.addEventListener('click', () => cardDelete(cardTemplateClone, card._id));
+  } else {
+    // Удалить иконку корзинки, если пользователь не является владельцем
+    cardTemplateClone.querySelector('.card__delete-button').remove();
+  }
+
   return cardTemplateClone;
 }
 
+
 // Функция удаления карточки
-export function cardDelete(card) {
-  card.remove();
+export function cardDelete(cardElement, cardId) {
+  deleteCardOnServer(cardId)
+    .then(() => {
+      cardElement.remove();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 // Функция лайка

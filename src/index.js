@@ -2,7 +2,7 @@ import './pages/index.css';
 import { createCard, cardDelete, addLike } from './components/card.js';
 import { openPopup, closePopup, closePopupOverlay } from './components/modal.js';
 import { enableValidation, clearValidation } from './components/validation.js';
-import { getUser, getCards, updateUser, createCardOnServer, updateUserAvatar } from './components/api.js';
+import { getUser, getCards, updateUser, createCardOnServer, updateUserAvatar, deleteCardOnServer } from './components/api.js';
 
 const placeList = document.querySelector('.places__list');
 const popupTypeEdit = document.querySelector('.popup_type_edit');
@@ -25,12 +25,15 @@ const popupTypeAvatar = document.querySelector('.popup_type_avatar')
 const avatarForm = popupTypeAvatar.querySelector('.popup__form')
 const avatarInput = avatarForm.querySelector('.popup__input_type_url')
 
+let currentUser;
+
 // Обновляем данные пользователя и загружаем карточки при загрузке страницы
 Promise.all([getUser(), getCards()])
   .then(([user, cards]) => {
+    currentUser = user;
     handleUserInfo(user);
     cards.forEach((cardData) => {
-      const card = createCard(cardData, cardDelete, openPopupImage, addLike);
+      const card = createCard(cardData, user._id, openPopupImage); // Передаем userId
       placeList.append(card);
     });
   })
@@ -101,8 +104,8 @@ function newCardFormSubmit(e) {
 
   createCardOnServer(newCardName, newCardLink)
     .then((cardData) => {
-      const card = createCard(cardData, cardDelete, openPopupImage, addLike);
-      placeList.prepend(card);
+      const card = createCard(cardData, currentUser._id, openPopupImage); // Передаем userId
+      placeList.prepend(card); // Используем prepend вместо append, чтобы добавить карточку в начало списка
       newCardForm.reset();
       closePopup(popupTypeNewCard);
     })
