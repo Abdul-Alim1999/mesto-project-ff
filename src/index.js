@@ -97,7 +97,7 @@ function newCardFormSubmit(e) {
   const submitButton = newCardForm.querySelector('.popup__button');
   const initialButtonText = submitButton.textContent;
   submitButton.textContent = 'Сохранение...';
-  submitButton.classList.remove('saving');
+  submitButton.classList.add('saving'); 
 
   const newCardName = newCardNameInput.value;
   const newCardLink = newCardUrlInput.value;
@@ -174,7 +174,7 @@ avatarForm.addEventListener('submit', (e) => {
   const submitButton = avatarForm.querySelector('.popup__button');
   const initialButtonText = submitButton.textContent;
   submitButton.textContent = 'Сохранение...';
-  submitButton.classList.remove('saving');
+  submitButton.classList.add('saving'); 
 
   const avatarUrlValue = avatarInput.value;
 
