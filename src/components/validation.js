@@ -8,7 +8,7 @@ export function enableValidation(config) {
 function setEventListeners(form, config) {
   const inputs = Array.from(form.querySelectorAll(config.inputSelector));
   const button = form.querySelector(config.submitButtonSelector);
-  
+
   inputs.forEach((input) => {
     input.addEventListener('input', () => {
       checkInputValidity(form, input, config);
@@ -19,23 +19,40 @@ function setEventListeners(form, config) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
   });
-  
+
   toggleButtonState(inputs, button, config);
 }
 
 function checkInputValidity(form, input, config) {
   const errorElement = form.querySelector(`#${input.id}-error`);
   if (!input.validity.valid) {
-    showInputError(input, errorElement, config);
+    const errorMessage = getErrorMessage(input);
+    showInputError(input, errorElement, errorMessage, config);
   } else {
     hideInputError(input, errorElement, config);
   }
 }
 
-function showInputError(input, errorElement, config) {
+function getErrorMessage(input) {
+  if (input.validity.valueMissing) {
+    return input.dataset.requiredError;
+  }
+  if (input.validity.tooShort) {
+    return input.dataset.tooShortError;
+  }
+  if (input.validity.tooLong) {
+    return input.dataset.tooLongError;
+  }
+  if (input.validity.patternMismatch) {
+    return input.dataset.patternError;
+  }
+  return input.validationMessage;
+}
+
+function showInputError(input, errorElement, errorMessage, config) {
   input.classList.add(config.inputErrorClass);
   if (errorElement) {
-    errorElement.textContent = getCustomErrorMessage(input) || input.validationMessage;
+    errorElement.textContent = errorMessage;
     errorElement.classList.add(config.errorClass);
     errorElement.classList.add('popup__input-error_visible');
   }
@@ -59,28 +76,11 @@ function toggleButtonState(inputs, button, config) {
 export function clearValidation(form, config) {
   const inputs = Array.from(form.querySelectorAll(config.inputSelector));
   const button = form.querySelector(config.submitButtonSelector);
-  
+
   inputs.forEach((input) => {
     const errorElement = form.querySelector(`#${input.id}-error`);
     hideInputError(input, errorElement, config);
   });
 
   toggleButtonState(inputs, button, config);
-}
-
-function getCustomErrorMessage(input) {
-  const validity = input.validity;
-  const nameRegex = /^[A-Za-zА-Яа-яЁё\s\-]+$/;
-  if (validity.valueMissing) {
-    return 'Вы пропустили поле.';
-  } else if (validity.patternMismatch) {
-    return input.dataset.error;
-  } else if (!nameRegex.test(input.value)) {
-    return 'Поле "Название" может содержать только латинские и кириллические буквы, знаки дефиса и пробелы.';
-  } else if (validity.tooShort) {
-    return `Минимальная длина ${input.minLength} символов. Сейчас ${input.value.length}.`;
-  } else if (validity.tooLong) {
-    return `Максимальная длина ${input.maxLength} символов. Сейчас ${input.value.length}.`;
-  } 
-  return null;
 }

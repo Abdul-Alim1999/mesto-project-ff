@@ -69,7 +69,7 @@ function editFormSubmit(e) {
   const submitButton = editForm.querySelector('.popup__button');
   const initialButtonText = submitButton.textContent;
   submitButton.textContent = 'Сохранение...';
-  submitButton.disabled = true;
+  submitButton.classList.add('saving'); 
 
   const newName = editNameInput.value;
   const newAbout = editJobInput.value;
@@ -84,7 +84,7 @@ function editFormSubmit(e) {
     })
     .finally(() => {
       submitButton.textContent = initialButtonText;
-      submitButton.disabled = false;
+      submitButton.classList.remove('saving');
     });
 }
 
@@ -97,15 +97,15 @@ function newCardFormSubmit(e) {
   const submitButton = newCardForm.querySelector('.popup__button');
   const initialButtonText = submitButton.textContent;
   submitButton.textContent = 'Сохранение...';
-  submitButton.disabled = true;
+  submitButton.classList.remove('saving');
 
   const newCardName = newCardNameInput.value;
   const newCardLink = newCardUrlInput.value;
 
   createCardOnServer(newCardName, newCardLink)
     .then((cardData) => {
-      const card = createCard(cardData, currentUser._id, openPopupImage); // Передаем userId
-      placeList.prepend(card); // Используем prepend вместо append, чтобы добавить карточку в начало списка
+      const card = createCard(cardData, currentUser._id, openPopupImage);
+      placeList.prepend(card);
       newCardForm.reset();
       closePopup(popupTypeNewCard);
     })
@@ -114,7 +114,7 @@ function newCardFormSubmit(e) {
     })
     .finally(() => {
       submitButton.textContent = initialButtonText;
-      submitButton.disabled = false;
+      submitButton.classList.remove('saving');
     });
 }
 
@@ -174,7 +174,7 @@ avatarForm.addEventListener('submit', (e) => {
   const submitButton = avatarForm.querySelector('.popup__button');
   const initialButtonText = submitButton.textContent;
   submitButton.textContent = 'Сохранение...';
-  submitButton.disabled = true;
+  submitButton.classList.remove('saving');
 
   const avatarUrlValue = avatarInput.value;
 
@@ -188,7 +188,7 @@ avatarForm.addEventListener('submit', (e) => {
     })
     .finally(() => {
       submitButton.textContent = initialButtonText;
-      submitButton.disabled = false;
+      submitButton.classList.remove('saving');
     });
 
     closePopup(popupTypeAvatar)
