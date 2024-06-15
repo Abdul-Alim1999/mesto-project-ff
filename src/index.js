@@ -1,8 +1,8 @@
 import './pages/index.css';
-import { createCard, cardDelete, addLike } from './components/card.js';
+import { createCard} from './components/card.js';
 import { openPopup, closePopup, closePopupOverlay } from './components/modal.js';
 import { enableValidation, clearValidation } from './components/validation.js';
-import { getUser, getCards, updateUser, createCardOnServer, updateUserAvatar, deleteCardOnServer } from './components/api.js';
+import { getUser, getCards, updateUser, createCardOnServer, updateUserAvatar } from './components/api.js';
 
 const placeList = document.querySelector('.places__list');
 const popupTypeEdit = document.querySelector('.popup_type_edit');
