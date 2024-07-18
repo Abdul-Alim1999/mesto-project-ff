@@ -4,6 +4,7 @@ import { openPopup, closePopup, closePopupByOverlay } from './components/modal.j
 import { addNewCard, getCards, getUser, updateAvatar, updateUser } from './components/api.js'
 import { enableValidation, clearValidation } from './components/validation'
 
+
 //переменные
 const placeList = document.querySelector('.places__list')
 const popupEditButton = document.querySelector('.profile__edit-button')
@@ -26,6 +27,7 @@ const avatarInput = popupAvatarForm.querySelector('.popup__input_type_url')
 const profileAvatar = document.querySelector('.profile__image')
 const profileOverlay = document.querySelector('.profile__overlay')
 
+
 //текущий пользователь
 let currentUser
 
@@ -36,7 +38,7 @@ Promise.all(([getUser(), getCards()]))
   handlingUser(user)
   currentUser = user
   cardsArr.forEach(cardData => {
-    placeList.append(createCard(cardData, openPopupImage, user._id))
+    placeList.prepend(createCard(cardData, openPopupImage, user._id))
   })
 })
 .catch((error) => {
@@ -96,7 +98,7 @@ const newCardFormSubmit = (e) => {
 
   addNewCard(nameValue, urlValue)
   .then((cardData) => {
-    placeList.prepend(createCard(cardData, openPopupImage, currentUser._id))
+    placeList.append(createCard(cardData, openPopupImage, currentUser._id))
     newCardForm.reset()
     closePopup(popupTypeNewCard)
   })
@@ -155,13 +157,17 @@ const openPopupImage = (name, link) => {
 //слушатель на кнопку редактирования профиля
 popupEditButton.addEventListener('click', () => {
   openPopup(popupTypeEdit)
+  clearValidation(popupEditForm, validationConfig)
   popupEditNameInput.value = profileTitle.textContent
   popupEditDescInput.value = profileDesc.textContent
 })
 
 
 //слушатель на кнопку добавления новой карточки
-popupAddCardButton.addEventListener('click', () => openPopup(popupTypeNewCard))
+popupAddCardButton.addEventListener('click', () => {
+  openPopup(popupTypeNewCard)
+  clearValidation(newCardForm, validationConfig)
+})
 
 
 //закрытия попапа по клику на крестик
@@ -203,6 +209,3 @@ const validationConfig = {
 
 
 enableValidation(validationConfig);
-
-
-
