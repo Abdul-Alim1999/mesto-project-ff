@@ -46,5 +46,5 @@
 }
 
 .profile__image-container:hover .profile__overlay {
-  opacity: 1;
+  opacity: 1; 
 }

@@ -1,11 +1,14 @@
-export function enableValidation(config) {
+// Включение валидации форм
+export const enableValidation = (config) => {
   const forms = Array.from(document.querySelectorAll(config.formSelector));
   forms.forEach((form) => {
     setEventListeners(form, config);
   });
 }
 
-function setEventListeners(form, config) {
+
+// Установка обработчиков событий для формы
+const setEventListeners = (form, config) => {
   const inputs = Array.from(form.querySelectorAll(config.inputSelector));
   const button = form.querySelector(config.submitButtonSelector);
 
@@ -23,7 +26,9 @@ function setEventListeners(form, config) {
   toggleButtonState(inputs, button, config);
 }
 
-function checkInputValidity(form, input, config) {
+
+// Проверка валидности введённых данных в форму
+const checkInputValidity = (form, input, config) => {
   const errorElement = form.querySelector(`#${input.id}-error`);
   if (!input.validity.valid) {
     const errorMessage = getErrorMessage(input);
@@ -33,15 +38,14 @@ function checkInputValidity(form, input, config) {
   }
 }
 
-function getErrorMessage(input) {
+
+// Получение сообщения об ошибке для некорректного поля ввода
+const getErrorMessage = (input) => {
   if (input.validity.valueMissing) {
     return input.dataset.requiredError;
   }
   if (input.validity.tooShort) {
     return input.dataset.tooShortError;
-  }
-  if (input.validity.tooLong) {
-    return input.dataset.tooLongError;
   }
   if (input.validity.patternMismatch) {
     return input.dataset.patternError;
@@ -49,7 +53,9 @@ function getErrorMessage(input) {
   return input.validationMessage;
 }
 
-function showInputError(input, errorElement, errorMessage, config) {
+
+// Показ ошибки для некорректного поля ввода
+const showInputError = (input, errorElement, errorMessage, config) => {
   input.classList.add(config.inputErrorClass);
   if (errorElement) {
     errorElement.textContent = errorMessage;
@@ -58,7 +64,9 @@ function showInputError(input, errorElement, errorMessage, config) {
   }
 }
 
-function hideInputError(input, errorElement, config) {
+
+// Скрытие ошибки для корректного поля ввода
+const hideInputError = (input, errorElement, config) => {
   input.classList.remove(config.inputErrorClass);
   if (errorElement) {
     errorElement.textContent = '';
@@ -67,13 +75,17 @@ function hideInputError(input, errorElement, config) {
   }
 }
 
-function toggleButtonState(inputs, button, config) {
+
+// Переключение состояния кнопки отправки формы
+const toggleButtonState = (inputs, button, config) => {
   const isFormValid = inputs.every((input) => input.validity.valid);
   button.disabled = !isFormValid;
   button.classList.toggle(config.inactiveButtonClass, !isFormValid);
 }
 
-export function clearValidation(form, config) {
+
+// Очистка валидации формы
+export const clearValidation = (form, config) => {
   const inputs = Array.from(form.querySelectorAll(config.inputSelector));
   const button = form.querySelector(config.submitButtonSelector);
 
