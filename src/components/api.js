@@ -12,17 +12,18 @@ const config = {
 }
 
 
+//функция проверки ответа от сервера
+const serverResponseCheck = (res) => {
+  return res.ok ? res.json() : Promise.reject(`Ошибка ${res.status}`)
+}
+
+
 //функция запроса на получения пользователя
 export const getUser = () => {
   return fetch(`${config.url}/users/me`, {
     headers: config.headers
   })
-  .then((res) => {
-    if(res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка ${res.status}`)
-  })
+  .then(serverResponseCheck)
 }
 
 
@@ -31,12 +32,7 @@ export const getCards = () => {
   return fetch(`${config.url}/cards`, {
     headers: config.headers
   })
-  .then((res) => {
-    if(res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка ${res.status}`)
-  })
+  .then(serverResponseCheck)
 }
 
 
@@ -47,12 +43,7 @@ export const addNewCard = (name, link) => {
     headers: config.headers,
     body: JSON.stringify({ name, link })
   })
-  .then((res) => {
-    if(res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка ${res.status}`)
-  })
+  .then(serverResponseCheck)
 }
 
 
@@ -63,12 +54,7 @@ export const updateUser = (name, about) => {
     headers: config.headers,
     body: JSON.stringify({ name, about})
   })
-  .then((res) => {
-    if(res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка ${res.status}`)
-  })
+  .then(serverResponseCheck)
 }
 
 
@@ -78,12 +64,7 @@ export const deleteCardOnServer = (cardId) => {
     method: 'DELETE',
     headers: config.headers
   })
-  .then((res) => {
-    if(res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка ${res.status}`)
-  })
+  .then(serverResponseCheck)
 }
 
 
@@ -94,13 +75,9 @@ export const updateAvatar = (avatar) => {
     headers: config.headers,
     body: JSON.stringify({ avatar })
   })
-  .then((res) => {
-    if(res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка ${res.status}`)
-  })
+  .then(serverResponseCheck)
 }
+
 
 //функция запроса на постановку лайка
 export const likeCard = (cardId) => {
@@ -108,12 +85,7 @@ export const likeCard = (cardId) => {
     method: 'PUT',
     headers: config.headers,
   })
-  .then((res) => {
-    if(res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка ${res.status}`)
-  })
+  .then(serverResponseCheck)
 }
 
 
@@ -123,10 +95,5 @@ export const unlikeCard = (cardId) => {
     method: 'DELETE',
     headers: config.headers
   })
-  .then((res) => {
-    if(res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка ${res.status}`)
-  })
+  .then(serverResponseCheck)
 }

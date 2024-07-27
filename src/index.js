@@ -38,7 +38,7 @@ Promise.all(([getUser(), getCards()]))
   handlingUser(user)
   currentUser = user
   cardsArr.forEach(cardData => {
-    placeList.prepend(createCard(cardData, openPopupImage, user._id))
+    placeList.append(createCard(cardData, openPopupImage, user._id))
   })
 })
 .catch((error) => {
@@ -75,7 +75,7 @@ const editProfileSubmit = (e) => {
   })
   .catch((error) => {
     console.log(error)
-  }) 
+  })
   .finally(() => {
     formButton.textContent = initialTextButton
     formButton.classList.remove('saving')
@@ -87,7 +87,7 @@ popupEditForm.addEventListener('submit', editProfileSubmit)
 //функция добавления новой карточки
 const newCardFormSubmit = (e) => {
   e.preventDefault()
-
+  
   const nameValue = newCardNameInput.value
   const urlValue = newCardUrlInput.value
   const formButton = newCardForm.querySelector('.popup__button')
@@ -98,7 +98,7 @@ const newCardFormSubmit = (e) => {
 
   addNewCard(nameValue, urlValue)
   .then((cardData) => {
-    placeList.append(createCard(cardData, openPopupImage, currentUser._id))
+    placeList.prepend(createCard(cardData, openPopupImage, currentUser._id))
     newCardForm.reset()
     closePopup(popupTypeNewCard)
   })
