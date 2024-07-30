@@ -691,7 +691,7 @@ template {
 }
 
 .profile__image-container:hover .profile__overlay {
-  opacity: 1; 
+  opacity: 1;
 }
 .places__list {
   display: grid;
