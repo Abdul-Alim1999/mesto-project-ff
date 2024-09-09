@@ -11,6 +11,7 @@ export const createCard = (card, openPopupImage, userId) => {
   const cardDeleteButton = cardTemplateClone.querySelector('.card__delete-button')
   const cardLikeButton = cardTemplateClone.querySelector('.card__like-button')
   const cardLikeCounter = cardTemplateClone.querySelector('.card__like-counter')
+
   cardDeleteButton.addEventListener('click', () => cardDelete(cardTemplateClone, card._id))
   cardImage.addEventListener('click', () => openPopupImage(name, link))
   cardLikeButton.addEventListener('click', (event) => cardLike(event, card._id, cardLikeCounter))
@@ -40,6 +41,9 @@ const cardDelete = (card, cardId) => {
   .then(() => {
     card.remove()
   })
+  .catch((error) => {
+    console.log(error)
+  })
 }
 
 
@@ -53,11 +57,17 @@ const cardLike = (event, cardId, cardLikeCountainer) => {
       likeButton.classList.remove('card__like-button_is-active')
       cardLikeCountainer.textContent = cardData.likes.length
     })
+    .catch((error) => {
+      console.log(error)
+    })
   }else {
     likeCard(cardId)
     .then((cardData) => {
       likeButton.classList.add('card__like-button_is-active')
       cardLikeCountainer.textContent = cardData.likes.length
+    })
+    .catch((error) => {
+      console.log(error)
     })
   }
 }
